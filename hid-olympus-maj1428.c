@@ -4,7 +4,7 @@
 #include <linux/module.h>
 #include <linux/hid.h>
 
-#include "hid-ids.h"
+//#include "hid-ids.h"
 
 MODULE_AUTHOR("Raleigh Littles <raleighlittles>");
 MODULE_DESCRIPTION("Olympus MAJ 1428 driver");
@@ -24,9 +24,10 @@ This keyboard actually has 3 different USB devices included in it.
 (This is referred to as the 'special keys')
 3. Lastly, the main keyboard area (standard 87 keys) are treated as their own USB device
 
-All 3 IDs 
+Each of the 3 devices has a different USB product ID.
 */
 #define USB_DEVICE_ID_OLYMPUS_MAJ1428_SPECIAL_KEYS 009b
+#define USB_DEVICE_ID_OLYMPUS 0430 // this is normally available in hid-ids.h, I just added it here for local debugging
 
 
 static int olympus_maj_raw_event(struct hid_device* hdev, struct hid_report*, u8* data, int size) {
