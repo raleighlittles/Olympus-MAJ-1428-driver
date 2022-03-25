@@ -8,7 +8,7 @@
 
 MODULE_AUTHOR("Raleigh Littles <raleighlittles>");
 MODULE_DESCRIPTION("Olympus MAJ 1428 driver");
-MODULE_LICENSE("MIT");
+MODULE_LICENSE("GPL");
 
 /* # Description
 
@@ -26,12 +26,14 @@ This keyboard actually has 3 different USB devices included in it.
 
 Each of the 3 devices has a different USB product ID.
 */
-#define USB_DEVICE_ID_OLYMPUS_MAJ1428_SPECIAL_KEYS 009b
-#define USB_DEVICE_ID_OLYMPUS 0430 // this is normally available in hid-ids.h, I just added it here for local debugging
+#define USB_DEVICE_ID_OLYMPUS_MAJ1428_SPECIAL_KEYS 0x009b
+#define USB_VENDOR_ID_SUN 0x0430 // this is normally available in hid-ids.h, I just added it here for local debugging
 
 
 static int olympus_maj_raw_event(struct hid_device* hdev, struct hid_report*, u8* data, int size) {
-    dev_printk(KERN_ERR "raleigh");
+    dev_printk(KERN_ERR, &hdev->dev, "raleigh");
+
+	return 0;
 }
 
 static void olympus_maj_remove(struct hid_device* hdev) {
