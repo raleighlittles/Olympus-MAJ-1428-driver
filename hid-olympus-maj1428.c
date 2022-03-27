@@ -1,8 +1,8 @@
 #include <linux/device.h>
+#include <linux/hid.h>
 #include <linux/input.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
-#include <linux/hid.h>
 
 // This header is only accessible when you're compiling against the kernel itself, but isn't available inside the usual kernel headers.
 //#include "hid-ids.h" 
@@ -32,31 +32,34 @@ Each of the 3 devices has a different USB product ID
 
 */
 
+
+
 #define USB_PRODUCT_ID_OLYMPUS_MAJ1428_SPECIAL_KEYS 0x009b
-#define USB_VENDOR_ID_SUN 0x0430 // this is normally available in hid-ids.h, I just added it here for local debugging
+// this is normally available in hid-ids.h, but I needed to build it locally (without the whole kernel)
+#define USB_VENDOR_ID_SUN 0x0430
 
 // Can't use "#" in a macro name, so use the symbol name instead
 #define OLYMPUS_MAJ1428_KEY_NUMBERSIGN_PER_PAGE 0xA6  // 166d
-#define OLYMPUS_MAJ1428_KEY_CAPTURE 0xA4   // 164d
-#define OLYMPUS_MAJ1428_KEY_DEL_IMAGE 0xA7 // 167d
-#define OLYMPUS_MAJ1428_KEY_PRINT 0xA8     // 168d
-#define OLYMPUS_MAJ1428_KEY_PRINT_QTY 0xA9 // 169d
-#define OLYMPUS_MAJ1428_KEY_COLOR 0xAD     // 173d
-#define OLYMPUS_MAJ1428_KEY_FREEZE 0xAA    // 170d
-#define OLYMPUS_MAJ1428_KEY_RELEASE 0xAB   // 171d
-#define OLYMPUS_MAJ1428_KEY_EXAM_END 0xAC  // 172d
+#define OLYMPUS_MAJ1428_KEY_CAPTURE 0xA4              // 164d
+#define OLYMPUS_MAJ1428_KEY_DEL_IMAGE 0xA7            // 167d
+#define OLYMPUS_MAJ1428_KEY_PRINT 0xA8                // 168d
+#define OLYMPUS_MAJ1428_KEY_PRINT_QTY 0xA9            // 169d
+#define OLYMPUS_MAJ1428_KEY_COLOR 0xAD                // 173d
+#define OLYMPUS_MAJ1428_KEY_FREEZE 0xAA               // 170d
+#define OLYMPUS_MAJ1428_KEY_RELEASE 0xAB              // 171d
+#define OLYMPUS_MAJ1428_KEY_EXAM_END 0xAC             // 172d
 
 /// Keyboard mapping for the device.
 static unsigned char olympus_maj1428_key_mapping[][2] = {
 	{ OLYMPUS_MAJ1428_KEY_NUMBERSIGN_PER_PAGE, KEY_F13 },
-	{ OLYMPUS_MAJ1428_KEY_CAPTURE, KEY_F14 },
-	{ OLYMPUS_MAJ1428_KEY_DEL_IMAGE, KEY_F15},
-	{ OLYMPUS_MAJ1428_KEY_PRINT, KEY_F16},
-	{ OLYMPUS_MAJ1428_KEY_PRINT_QTY, KEY_F17},
-	{ OLYMPUS_MAJ1428_KEY_COLOR, KEY_F18},
-	{ OLYMPUS_MAJ1428_KEY_FREEZE, KEY_F19},
-	{ OLYMPUS_MAJ1428_KEY_RELEASE, KEY_F20},
-	{ OLYMPUS_MAJ1428_KEY_EXAM_END, KEY_F21},
+	{ OLYMPUS_MAJ1428_KEY_CAPTURE,             KEY_F14 },
+	{ OLYMPUS_MAJ1428_KEY_DEL_IMAGE,           KEY_F15},
+	{ OLYMPUS_MAJ1428_KEY_PRINT,               KEY_F16},
+	{ OLYMPUS_MAJ1428_KEY_PRINT_QTY,           KEY_F17},
+	{ OLYMPUS_MAJ1428_KEY_COLOR,               KEY_F18},
+	{ OLYMPUS_MAJ1428_KEY_FREEZE,              KEY_F19},
+	{ OLYMPUS_MAJ1428_KEY_RELEASE,             KEY_F20},
+	{ OLYMPUS_MAJ1428_KEY_EXAM_END,            KEY_F21},
 	{ 0, 0 } // Last element must be empty
 };
 
