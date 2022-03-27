@@ -8,7 +8,7 @@
 //#include "hid-ids.h" 
 
 MODULE_AUTHOR("Raleigh Littles <raleighlittles@gmail.com>");
-MODULE_DESCRIPTION("Olympus MAJ 1428 driver");
+MODULE_DESCRIPTION("Olympus MAJ 1428 keyboard driver");
 MODULE_LICENSE("GPL");
 
 /* 
@@ -33,7 +33,6 @@ Each of the 3 devices has a different USB product ID
 */
 
 
-
 #define USB_PRODUCT_ID_OLYMPUS_MAJ1428_SPECIAL_KEYS 0x009b
 // this is normally available in hid-ids.h, but I needed to build it locally (without the whole kernel)
 #define USB_VENDOR_ID_SUN 0x0430
@@ -53,13 +52,13 @@ Each of the 3 devices has a different USB product ID
 static unsigned char olympus_maj1428_key_mapping[][2] = {
 	{ OLYMPUS_MAJ1428_KEY_NUMBERSIGN_PER_PAGE, KEY_F13 },
 	{ OLYMPUS_MAJ1428_KEY_CAPTURE,             KEY_F14 },
-	{ OLYMPUS_MAJ1428_KEY_DEL_IMAGE,           KEY_F15},
-	{ OLYMPUS_MAJ1428_KEY_PRINT,               KEY_F16},
-	{ OLYMPUS_MAJ1428_KEY_PRINT_QTY,           KEY_F17},
-	{ OLYMPUS_MAJ1428_KEY_COLOR,               KEY_F18},
-	{ OLYMPUS_MAJ1428_KEY_FREEZE,              KEY_F19},
-	{ OLYMPUS_MAJ1428_KEY_RELEASE,             KEY_F20},
-	{ OLYMPUS_MAJ1428_KEY_EXAM_END,            KEY_F21},
+	{ OLYMPUS_MAJ1428_KEY_DEL_IMAGE,           KEY_F15 },
+	{ OLYMPUS_MAJ1428_KEY_PRINT,               KEY_F16 },
+	{ OLYMPUS_MAJ1428_KEY_PRINT_QTY,           KEY_F17 },
+	{ OLYMPUS_MAJ1428_KEY_COLOR,               KEY_F18 },
+	{ OLYMPUS_MAJ1428_KEY_FREEZE,              KEY_F19 },
+	{ OLYMPUS_MAJ1428_KEY_RELEASE,             KEY_F20 },
+	{ OLYMPUS_MAJ1428_KEY_EXAM_END,            KEY_F21 },
 	{ 0, 0 } // Last element must be empty
 };
 
@@ -76,7 +75,7 @@ static int olympus_maj1428_raw_event(struct hid_device* hdev, struct hid_report*
 	u8 key_scancode = data[2];
 
 	// Debug only
-    // dev_printk(KERN_INFO, &hdev->dev, "key event detected! scan code = %d", data[2]);
+        // dev_printk(KERN_INFO, &hdev->dev, "key event detected! scan code = %d", data[2]);
 
 	// You'll need to get a pointer to the actual input_dev object to be able to produce a key event from it
 	struct input_dev* input;
@@ -87,6 +86,7 @@ static int olympus_maj1428_raw_event(struct hid_device* hdev, struct hid_report*
 	
 	// Pressing a key on a keyboard actually creates two events, an event that the key was pressed (when your finger pushes down on it),
 	// and then another event when they key is released (when your finger goes back up) -- hence the 1 and 0
+	// This technically doesn't matter for function keys, but it does for character keys, otherwise you'll see something 'aaaaaaaaaa'
 	input_report_key(input, olympus_maj1428_key_mapping[key_scancode][1], 1);
 	input_report_key(input, olympus_maj1428_key_mapping[key_scancode][1], 0);
 
@@ -104,6 +104,7 @@ static const struct hid_device_id olympus_maj1428_id_table[] = {
 			 USB_PRODUCT_ID_OLYMPUS_MAJ1428_SPECIAL_KEYS) },
 	{}
 };
+
 MODULE_DEVICE_TABLE(hid, olympus_maj1428_id_table);
 
 static struct hid_driver olympus_maj1428_driver = {
